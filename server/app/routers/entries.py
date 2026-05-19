@@ -1,0 +1,45 @@
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from ..database import get_db
+from ..auth import get_current_user
+from ..models import User
+from ..schemas import SleepEntryCreate, SleepEntryOut
+from .. import crud
+
+router = APIRouter(prefix="/entries", tags=["entries"])
+
+
+@router.post("/", response_model=SleepEntryOut, status_code=status.HTTP_201_CREATED)
+def add_entry(
+    entry: SleepEntryCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if entry.wake_time <= entry.sleep_time:
+        raise HTTPException(
+            status_code=400, detail="Wake time must be after sleep time"
+        )
+    return crud.create_entry(db=db, entry=entry, user_id=current_user.id)
+
+
+@router.get("/", response_model=list[SleepEntryOut])
+def read_entries(
+    db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
+):
+    entries = crud.get_entries(db=db, user_id=current_user.id)
+    result = []
+    for e in entries:
+        duration = (e.wake_time - e.sleep_time).total_seconds() / 3600
+        result.append(
+            SleepEntryOut(
+                id=e.id,
+                date=e.date,
+                sleep_time=e.sleep_time,
+                wake_time=e.wake_time,
+                quality=e.quality,
+                notes=e.notes,
+                user_id=e.user_id,
+                duration_hours=round(duration, 2),
+            )
+        )
+    return result
