@@ -20,16 +20,16 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
-            <form onSubmit={handleSubmit} className="bg-gray-900 p-8 rounded-xl shadow-lg w-full max-w-sm space-y-5">
-                <h1 className="text-3xl font-bold tracking-tight">Sign In</h1>
-                {error && <p className="text-red-400 text-sm">{error}</p>}
+        <div className="min-h-screen flex items-center justify-center bg-[#0B0E14]">
+            <form onSubmit={handleSubmit} className="bg-[#151B23] p-8 rounded-xl shadow-lg w-full max-w-sm space-y-5 border border-[#FFFFFF0D]">
+                <h1 className="text-3xl font-bold text-[#F1F5F9]">Sign In</h1>
+                {error && <p className="text-[#F4A5A5] text-sm">{error}</p>}
                 <input
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-3 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-indigo-500"
+                    className="w-full p-3 rounded bg-[#0B0E14] border border-[#FFFFFF0D] text-[#F1F5F9] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B8CDE]"
                     required
                 />
                 <input
@@ -37,15 +37,15 @@ export default function Login() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-3 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-indigo-500"
+                    className="w-full p-3 rounded bg-[#0B0E14] border border-[#FFFFFF0D] text-[#F1F5F9] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B8CDE]"
                     required
                 />
-                <button type="submit" className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded font-semibold transition">
+                <button type="submit" className="w-full py-3 bg-[#7B8CDE] hover:bg-[#A78BFA] text-[#0B0E14] rounded-full font-semibold transition-all duration-300 hover:scale-105">
                     Log In
                 </button>
-                <p className="text-sm text-gray-400 text-center">
+                <p className="text-sm text-[#94A3B8] text-center">
                     Don&apos;t have an account?{" "}
-                    <Link to="/signup" className="text-indigo-400 hover:underline">Sign up</Link>
+                    <Link to="/signup" className="text-[#7B8CDE] hover:underline">Sign up</Link>
                 </p>
             </form>
         </div>

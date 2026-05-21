@@ -14,12 +14,12 @@ const sampleEntries = [
 
 export default function Home() {
     return (
-        <div className="bg-gray-950">
+        <div className="bg-[#0B0E14]">
             <Hero />
             <SleepCharacter />
             <div className="max-w-4xl mx-auto px-4 py-16">
                 <WeeklyChart entries={sampleEntries} />
-                <p className="text-gray-400 text-center mt-4 text-sm">
+                <p className="text-[#94A3B8] text-center mt-4 text-sm">
                     Example weekly view — sign up to see your own data.
                 </p>
             </div>

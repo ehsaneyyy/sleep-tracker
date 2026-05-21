@@ -12,14 +12,17 @@ export default function WeeklyChart({ entries }) {
     });
 
     return (
-        <div className="bg-gray-900 p-6 rounded-xl w-full">
-            <h2 className="text-2xl mb-4">Sleep This Week</h2>
+        <div className="bg-[#151B23] p-6 rounded-xl w-full">
+            <h2 className="text-2xl mb-4 text-[#F1F5F9]">Sleep This Week</h2>
             <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={data}>
-                    <XAxis dataKey="day" stroke="#9ca3af" />
-                    <YAxis stroke="#9ca3af" />
-                    <Tooltip />
-                    <Bar dataKey="hours" fill="#818cf8" radius={[4, 4, 0, 0]} />
+                    <XAxis dataKey="day" stroke="#94A3B8" />
+                    <YAxis stroke="#94A3B8" />
+                    <Tooltip
+                        contentStyle={{ backgroundColor: "#151B23", border: "1px solid #FFFFFF0D", borderRadius: "8px" }}
+                        labelStyle={{ color: "#F1F5F9" }}
+                    />
+                    <Bar dataKey="hours" fill="#7B8CDE" radius={[4, 4, 0, 0]} />
                 </BarChart>
             </ResponsiveContainer>
         </div>
