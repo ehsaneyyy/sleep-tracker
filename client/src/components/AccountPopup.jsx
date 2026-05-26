@@ -58,7 +58,7 @@ export default function AccountPopup({ onClose }) {
             </button>
 
             <div className="flex flex-col items-center text-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#7B8CDE] to-[#A78BFA] text-[#0B0E14] flex items-center justify-center font-bold text-2xl uppercase shadow-[0_0_20px_rgba(123,140,222,0.4)] mb-4">
+                <div className="w-16 h-16 rounded-full bg-linear-to-br from-[#7B8CDE] to-[#A78BFA] text-[#0B0E14] flex items-center justify-center font-bold text-2xl uppercase shadow-[0_0_20px_rgba(123,140,222,0.4)] mb-4">
                     {profile.name ? profile.name[0] : profile.email[0]}
                 </div>
                 <div className="text-[#F1F5F9] font-semibold text-base break-all">

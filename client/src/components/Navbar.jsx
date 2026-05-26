@@ -90,7 +90,7 @@ export default function Navbar() {
                     <div className="relative">
                         <button
                             onClick={() => setShowAccount(!showAccount)}
-                            className="w-9 h-9 rounded-full bg-gradient-to-br from-[#7B8CDE] to-[#A78BFA] text-[#0B0E14] flex items-center justify-center hover:shadow-[0_0_16px_rgba(123,140,222,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
+                            className="w-9 h-9 rounded-full bg-linear-to-br from-[#7B8CDE] to-[#A78BFA] text-[#0B0E14] flex items-center justify-center hover:shadow-[0_0_16px_rgba(123,140,222,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
                         >
                             {faceType === "energetic" && (
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none" className="w-6 h-6">
