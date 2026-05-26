@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import IdleTracker from "./components/IdleTracker";
 import { ThemeProvider } from "./context/ThemeContext";
 import GreetingToast from "./components/GreetingToast";
+import { IdleProvider } from "./context/IdleContext";
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -21,21 +22,23 @@ function App() {
 
   return (
     <AuthProvider>
-      <ThemeProvider>
-        <IdleTracker />
-        <GreetingToast />
-        <BrowserRouter>
-          {token && <Navbar />}
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/log" element={<ProtectedRoute><Log /></ProtectedRoute>} />
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
+      <IdleProvider>
+        <ThemeProvider>
+          <IdleTracker />
+          <GreetingToast />
+          <BrowserRouter>
+            {token && <Navbar />}
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/log" element={<ProtectedRoute><Log /></ProtectedRoute>} />
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </IdleProvider>
     </AuthProvider>
   );
 }

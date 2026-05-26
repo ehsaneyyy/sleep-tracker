@@ -1,7 +1,8 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTheme } from "../context/ThemeContext";
+import { useIdle } from "../context/IdleContext";
 import AccountPopup from "./AccountPopup";
-import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -9,7 +10,8 @@ export default function Navbar() {
     const token = localStorage.getItem("token");
     const [iconMode, setIconMode] = useState("day");
     const [showAccount, setShowAccount] = useState(false);
-    const { user } = useAuth();
+    const { mode } = useTheme();
+    const { idleState } = useIdle();
 
     if (!token) return null;
 
@@ -24,6 +26,13 @@ export default function Navbar() {
         const interval = setInterval(updateIcon, 60000);
         return () => clearInterval(interval);
     }, []);
+
+    const faceType =
+        idleState === "sleeping"
+            ? "sleeping"
+            : mode === "sleep"
+                ? "tired"
+                : "energetic";
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0B0E14]/80 backdrop-blur-2xl border-b border-[#FFFFFF0A]">
@@ -81,9 +90,60 @@ export default function Navbar() {
                     <div className="relative">
                         <button
                             onClick={() => setShowAccount(!showAccount)}
-                            className="w-8 h-8 rounded-full bg-[#7B8CDE] text-[#0B0E14] flex items-center justify-center font-semibold text-sm uppercase hover:shadow-[0_0_12px_rgba(123,140,222,0.6)] transition-all duration-300"
+                            className="w-9 h-9 rounded-full bg-gradient-to-br from-[#7B8CDE] to-[#A78BFA] text-[#0B0E14] flex items-center justify-center hover:shadow-[0_0_16px_rgba(123,140,222,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
                         >
-                            {user?.email?.charAt(0) || "U"}
+                            {faceType === "energetic" && (
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none" className="w-6 h-6">
+                                    <g className="animate-blink" style={{ transformOrigin: "10px 15px" }}>
+                                        <circle cx="10" cy="14" r="5" fill="#0B0E14" />
+                                        <circle cx="10" cy="14" r="2.2" fill="white" />
+                                        <circle cx="11" cy="13" r="0.9" fill="white" />
+                                    </g>
+                                    <g className="animate-blink" style={{ transformOrigin: "26px 15px" }}>
+                                        <circle cx="26" cy="14" r="5" fill="#0B0E14" />
+                                        <circle cx="26" cy="14" r="2.2" fill="white" />
+                                        <circle cx="27" cy="13" r="0.9" fill="white" />
+                                    </g>
+                                    <path d="M13 21 Q18 26, 23 21" stroke="#0B0E14" strokeWidth="1.8" strokeLinecap="round" fill="none" />
+                                    <circle cx="8" cy="18" r="1.8" fill="#F4A5A5" opacity="0.6" />
+                                    <circle cx="28" cy="18" r="1.8" fill="#F4A5A5" opacity="0.6" />
+                                </svg>
+                            )}
+                            {faceType === "tired" && (
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none" className="w-6 h-6">
+                                    <g className="animate-blink" style={{ transformOrigin: "10px 15px" }}>
+                                        <circle cx="10" cy="15" r="5" fill="#0B0E14" />
+                                        <circle cx="10" cy="15" r="1.6" fill="white" opacity="0.7" />
+                                        <path d="M5 13 Q10 11, 15 13" stroke="#0B0E14" strokeWidth="1.5" fill="none" />
+                                    </g>
+                                    <g className="animate-blink" style={{ transformOrigin: "26px 15px" }}>
+                                        <circle cx="26" cy="15" r="5" fill="#0B0E14" />
+                                        <circle cx="26" cy="15" r="1.6" fill="white" opacity="0.7" />
+                                        <path d="M21 13 Q26 11, 31 13" stroke="#0B0E14" strokeWidth="1.5" fill="none" />
+                                    </g>
+                                    <path d="M15 22 Q18 21, 21 22" stroke="#0B0E14" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                                </svg>
+                            )}
+                            {faceType === "sleeping" && (
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none" className="w-6 h-6 relative">
+                                    <g>
+                                        <path d="M6 15 Q10 13, 14 15" stroke="#0B0E14" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                                        <path d="M22 15 Q26 13, 30 15" stroke="#0B0E14" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                                    </g>
+                                    <path d="M16 22 Q18 21, 20 22" stroke="#0B0E14" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                                    <text
+                                        x="21"
+                                        y="9"
+                                        fill="#F1F5F9"
+                                        fontSize="4.5"
+                                        fontWeight="bold"
+                                        className="animate-float"
+                                        style={{ textShadow: "0 0 5px #7B8CDE" }}
+                                    >
+                                        zzz
+                                    </text>
+                                </svg>
+                            )}
                         </button>
 
                         {showAccount && <AccountPopup onClose={() => setShowAccount(false)} />}

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import api from "../services/api";
+import { useIdle } from "../context/IdleContext";
 
 const IDLE_THRESHOLD_MINUTES = 30;
 const AWAKEN_THRESHOLD_MINUTES = 3;
@@ -7,6 +8,7 @@ const AWAKEN_THRESHOLD_MINUTES = 3;
 export default function IdleTracker() {
     const lastActive = useRef(Date.now());
     const state = useRef("active");
+    const { setIdleState } = useIdle();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -27,6 +29,7 @@ export default function IdleTracker() {
             lastActive.current = Date.now();
             if (state.current === "idle" || state.current === "sleeping") {
                 state.current = "active";
+                setIdleState("active");
                 sendEvent("active");
             }
         };
@@ -37,13 +40,16 @@ export default function IdleTracker() {
 
             if (state.current === "active" && idleMinutes >= IDLE_THRESHOLD_MINUTES) {
                 state.current = "idle";
+                setIdleState("idle");
                 sendEvent("idle");
             }
             if (state.current === "idle" && idleMinutes >= 180) {
                 state.current = "sleeping";
+                setIdleState("sleeping");
             }
             if (state.current === "sleeping" && idleMinutes < AWAKEN_THRESHOLD_MINUTES) {
                 state.current = "active";
+                setIdleState("active");
                 sendEvent("active");
             }
         }, 30000);
@@ -58,7 +64,7 @@ export default function IdleTracker() {
             window.removeEventListener("keydown", onActivity);
             window.removeEventListener("scroll", onActivity);
         };
-    }, []);
+    }, [setIdleState]);
 
     return null;
 }
