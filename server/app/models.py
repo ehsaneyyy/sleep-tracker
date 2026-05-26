@@ -11,6 +11,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
+    name = Column(String, nullable=True)
 
     entries = relationship("SleepEntry", back_populates="owner")
 
@@ -27,3 +28,12 @@ class SleepEntry(Base):
 
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     owner = relationship("User", back_populates="entries")
+
+
+class IdleEvent(Base):
+    __tablename__ = "idle_events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    event_type = Column(String, nullable=False)  # "idle" or "active"
+    timestamp = Column(DateTime, nullable=False)

@@ -1,4 +1,5 @@
 import Hero from "../components/Hero";
+import PersonalizedSection from "../components/PersonalizedSection";
 import SleepCharacter from "../components/SleepCharacter";
 import WeeklyChart from "../components/WeeklyChart";
 
@@ -16,6 +17,7 @@ export default function Home() {
     return (
         <div className="bg-[#0B0E14]">
             <Hero />
+            <PersonalizedSection />
             <SleepCharacter />
             <div className="max-w-4xl mx-auto px-4 py-16">
                 <WeeklyChart entries={sampleEntries} />

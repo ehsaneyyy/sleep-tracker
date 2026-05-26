@@ -33,7 +33,7 @@ export default function Hero() {
     }, [isHoveringDots, next]);
 
     return (
-        <div className="relative h-screen w-full overflow-hidden bg-[#0B0E14]">
+        <div className="relative h-[90vh] w-full overflow-hidden bg-[#0B0E14]">
             {images.map((img, index) => (
                 <div
                     key={img}
@@ -47,7 +47,7 @@ export default function Hero() {
             ))}
 
             <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14]/90 via-transparent to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-transparent to-black/30" />
 
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-6 text-center z-10">
                 <h1 className="text-5xl sm:text-6xl md:text-8xl font-light tracking-tighter leading-tight mb-6 text-[#F1F5F9]">

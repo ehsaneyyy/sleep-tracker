@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import Optional
 
 
-
 class UserCreate(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=6)
@@ -27,7 +26,6 @@ class Token(BaseModel):
     token_type: str
 
 
-
 class SleepEntryCreate(BaseModel):
     date: datetime
     sleep_time: datetime
@@ -48,3 +46,30 @@ class SleepEntryOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class IdleEventCreate(BaseModel):
+    event_type: str
+    timestamp: datetime
+
+
+class IdleEventOut(BaseModel):
+    id: int
+    user_id: int
+    event_type: str
+    timestamp: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class UserProfile(BaseModel):
+    email: str
+    name: str | None
+
+    class Config:
+        from_attributes = True
+
+
+class UserProfileUpdate(BaseModel):
+    name: str

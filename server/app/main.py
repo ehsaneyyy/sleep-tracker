@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .routers import users, entries, insight
+from .routers import users, entries, insight, auto
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -15,3 +15,4 @@ app.add_middleware(
 app.include_router(users.router)
 app.include_router(entries.router)
 app.include_router(insight.router)
+app.include_router(auto.router)
