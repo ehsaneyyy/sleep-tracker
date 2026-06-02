@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { IdleProvider } from "./context/IdleContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
@@ -7,9 +9,7 @@ import Log from "./pages/Log";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import IdleTracker from "./components/IdleTracker";
-import { ThemeProvider } from "./context/ThemeContext";
 import GreetingToast from "./components/GreetingToast";
-import { IdleProvider } from "./context/IdleContext";
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
