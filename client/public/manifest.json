@@ -1,0 +1,15 @@
+{
+    "name": "SleepTracker",
+    "short_name": "Sleep",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0B0E14",
+    "theme_color": "#7B8CDE",
+    "icons": [
+        {
+            "src": "https://placehold.co/192x192/7B8CDE/FFFFFF?text=%F0%9F%8C%99",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}
