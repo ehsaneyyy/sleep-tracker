@@ -5,8 +5,6 @@ import WeeklyChart from "../components/WeeklyChart";
 
 export default function Dashboard() {
     const [entries, setEntries] = useState([]);
-    const [insight, setInsight] = useState("");
-    const [loadingInsight, setLoadingInsight] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -14,18 +12,6 @@ export default function Dashboard() {
             .then((res) => setEntries(res.data))
             .catch(() => navigate("/login"));
     }, [navigate]);
-
-    const getInsight = async () => {
-        setLoadingInsight(true);
-        try {
-            const res = await api.get("/insight/");
-            setInsight(res.data.insight);
-        } catch {
-            setInsight("Could not get insight.");
-        } finally {
-            setLoadingInsight(false);
-        }
-    };
 
     const totalHours = entries.reduce((sum, e) => sum + e.duration_hours, 0);
     const avgQuality = entries.length
@@ -91,21 +77,6 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             ))}
-                        </div>
-                    )}
-                </div>
-
-                <div className="flex flex-col gap-4">
-                    <button
-                        onClick={getInsight}
-                        disabled={loadingInsight}
-                        className="px-8 py-3 rounded-full bg-[#7B8CDE] text-[#0B0E14] font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,140,222,0.4)] hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
-                        {loadingInsight ? "Thinking..." : "✨ Get AI Sleep Insight"}
-                    </button>
-                    {insight && (
-                        <div className="w-full bg-[#151B23] rounded-2xl p-6 border border-[#7B8CDE]/20">
-                            <p className="text-lg text-[#F1F5F9] leading-relaxed">{insight}</p>
                         </div>
                     )}
                 </div>

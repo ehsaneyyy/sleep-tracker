@@ -2,23 +2,35 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
+const today = new Date().toISOString().slice(0, 10);
+
 export default function Log() {
-    const [date, setDate] = useState("");
-    const [sleepTime, setSleepTime] = useState("");
-    const [wakeTime, setWakeTime] = useState("");
+    const [date, setDate] = useState(today);
+    const [sleepTime, setSleepTime] = useState("23:00");
+    const [wakeTime, setWakeTime] = useState("07:00");
     const [quality, setQuality] = useState(3);
     const [notes, setNotes] = useState("");
     const [error, setError] = useState("");
+    const [hoverStar, setHoverStar] = useState(0);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const [sh, sm] = sleepTime.split(":").map(Number);
+            const [wh, wm] = wakeTime.split(":").map(Number);
+            const sleepDate = new Date(`${date}T${sleepTime}:00`);
+            let wakeDate = new Date(`${date}T${wakeTime}:00`);
+
+            if (wh < sh || (wh === sh && wm <= sm)) {
+                wakeDate.setDate(wakeDate.getDate() + 1);
+            }
+
             await api.post("/entries/", {
                 date: new Date(date).toISOString(),
-                sleep_time: new Date(sleepTime).toISOString(),
-                wake_time: new Date(wakeTime).toISOString(),
-                quality: parseInt(quality),
+                sleep_time: sleepDate.toISOString(),
+                wake_time: wakeDate.toISOString(),
+                quality,
                 notes,
             });
             navigate("/dashboard");
@@ -47,26 +59,79 @@ export default function Log() {
 
                 {error && <p className="text-[#F4A5A5] text-sm mb-4">{error}</p>}
 
-                <div className="space-y-4">
+                <div className="space-y-5">
                     <div>
                         <label className="block text-sm text-[#94A3B8] mb-1">Date</label>
-                        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full p-3 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] focus:outline-none focus:border-[#7B8CDE] transition-colors" required />
+                        <input
+                            type="date"
+                            max={today}
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            className="w-full p-3 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] focus:outline-none focus:border-[#7B8CDE] transition-colors"
+                            required
+                        />
                     </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm text-[#94A3B8] mb-1">Bedtime</label>
+                            <input
+                                type="time"
+                                value={sleepTime}
+                                onChange={(e) => setSleepTime(e.target.value)}
+                                className="w-full p-3 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] focus:outline-none focus:border-[#7B8CDE] transition-colors"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm text-[#94A3B8] mb-1">Wake time</label>
+                            <input
+                                type="time"
+                                value={wakeTime}
+                                onChange={(e) => setWakeTime(e.target.value)}
+                                className="w-full p-3 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] focus:outline-none focus:border-[#7B8CDE] transition-colors"
+                                required
+                            />
+                        </div>
+                    </div>
+
                     <div>
-                        <label className="block text-sm text-[#94A3B8] mb-1">Bedtime</label>
-                        <input type="datetime-local" value={sleepTime} onChange={(e) => setSleepTime(e.target.value)} className="w-full p-3 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] focus:outline-none focus:border-[#7B8CDE] transition-colors" required />
+                        <label className="block text-sm text-[#94A3B8] mb-2">Quality</label>
+                        <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                    key={star}
+                                    type="button"
+                                    onClick={() => setQuality(star)}
+                                    onMouseEnter={() => setHoverStar(star)}
+                                    onMouseLeave={() => setHoverStar(0)}
+                                    className="text-2xl transition-colors"
+                                >
+                                    <span
+                                        className={
+                                            star <= (hoverStar || quality)
+                                                ? "text-yellow-300"
+                                                : "text-[#FFFFFF30]"
+                                        }
+                                    >
+                                        ★
+                                    </span>
+                                </button>
+                            ))}
+                            <span className="text-sm text-[#94A3B8] ml-2 self-center">
+                                {quality}/5
+                            </span>
+                        </div>
                     </div>
-                    <div>
-                        <label className="block text-sm text-[#94A3B8] mb-1">Wake time</label>
-                        <input type="datetime-local" value={wakeTime} onChange={(e) => setWakeTime(e.target.value)} className="w-full p-3 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] focus:outline-none focus:border-[#7B8CDE] transition-colors" required />
-                    </div>
-                    <div>
-                        <label className="block text-sm text-[#94A3B8] mb-1">Quality (1-5)</label>
-                        <input type="number" min="1" max="5" value={quality} onChange={(e) => setQuality(e.target.value)} className="w-full p-3 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] focus:outline-none focus:border-[#7B8CDE] transition-colors" />
-                    </div>
+
                     <div>
                         <label className="block text-sm text-[#94A3B8] mb-1">Notes</label>
-                        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows="3" className="w-full p-3 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] focus:outline-none focus:border-[#7B8CDE] transition-colors" />
+                        <textarea
+                            value={notes}
+                            onChange={(e) => setNotes(e.target.value)}
+                            rows="3"
+                            className="w-full p-3 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] focus:outline-none focus:border-[#7B8CDE] transition-colors"
+                        />
                     </div>
                 </div>
 
