@@ -8,7 +8,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://sleep-tracker-3ytgq1vtf-mohammed-ehsans-projects-0cf79ab6.vercel.app",
+        "https://sleep-tracker-self.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
