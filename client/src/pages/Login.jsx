@@ -22,7 +22,7 @@ export default function Login() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#0B0E14]">
             <form onSubmit={handleSubmit} className="bg-[#151B23] p-8 rounded-xl shadow-lg w-full max-w-sm space-y-5 border border-[#FFFFFF0D]">
-                <h1 className="text-3xl font-bold text-[#F1F5F9]">Sign In</h1>
+                <h1 className="text-3xl font-bold text-[#F1F5F9]">Log In</h1>
                 {error && <p className="text-[#F4A5A5] text-sm">{error}</p>}
                 <input
                     type="email"
