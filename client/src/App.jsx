@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import IdleTracker from "./components/IdleTracker";
 import GreetingToast from "./components/GreetingToast";
 import InstallPrompt from "./components/InstallPrompt";
+import LoginPrompt from "./components/LoginPrompt";
 
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -28,6 +29,7 @@ function App() {
           <IdleTracker />
           <GreetingToast />
           <InstallPrompt />
+          <LoginPrompt />
           <BrowserRouter>
             {token && <Navbar />}
             <Routes>
