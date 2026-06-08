@@ -29,8 +29,8 @@ function App() {
           <IdleTracker />
           <GreetingToast />
           <InstallPrompt />
-          <LoginPrompt />
           <BrowserRouter>
+            <LoginPrompt />
             {token && <Navbar />}
             <Routes>
               <Route path="/login" element={<Login />} />
