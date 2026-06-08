@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function LoginPrompt() {
     const [show, setShow] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         const dismissed = sessionStorage.getItem("loginPromptDismissed");
         if (!token && !dismissed) {
-            setShow(true);
+            // small delay so it feels intentional
+            const timer = setTimeout(() => setShow(true), 500);
+            return () => clearTimeout(timer);
         }
-    }, []);
+    }, [location]);
 
     if (!show) return null;
 
