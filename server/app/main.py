@@ -16,3 +16,6 @@ app.include_router(users.router)
 app.include_router(entries.router)
 app.include_router(insight.router)
 app.include_router(auto.router)
+
+
+
