@@ -4,5 +4,11 @@
             "source": "/(.*)",
             "destination": "/index.html"
         }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "https://sleep-tracker-api-zyg1.onrender.com/$1"
+        }
     ]
 }
