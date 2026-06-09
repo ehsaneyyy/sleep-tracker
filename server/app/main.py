@@ -6,7 +6,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://sleep-tracker-self.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -16,6 +19,3 @@ app.include_router(users.router)
 app.include_router(entries.router)
 app.include_router(insight.router)
 app.include_router(auto.router)
-
-
-
