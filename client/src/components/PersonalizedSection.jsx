@@ -51,7 +51,8 @@ export default function PersonalizedSection() {
         return () => clearInterval(interval);
     }, [mode, profile]);
 
-    if (!profile) return null;
+    // hide section for fresh users (no real sleep profile yet)
+    if (!profile || profile.is_default) return null;
 
     const mood = mode === "awake" ? "⚡ Time to shine" : "🌙 Wind‑down mode";
     const displayName = userName || "friend";
@@ -69,17 +70,8 @@ export default function PersonalizedSection() {
             >
                 <div className="text-center space-y-6">
                     <div className="relative inline-flex items-center justify-center">
-                        {/* Progress ring */}
                         <svg className="w-24 h-24 sm:w-28 sm:h-28 transform -rotate-90" viewBox="0 0 100 100">
-                            <circle
-                                cx="50"
-                                cy="50"
-                                r="44"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                                className="text-white/10"
-                            />
+                            <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" strokeWidth="4" className="text-white/10" />
                             <circle
                                 cx="50"
                                 cy="50"
@@ -93,7 +85,6 @@ export default function PersonalizedSection() {
                                 className="transition-all duration-1000 ease-out"
                             />
                         </svg>
-                        {/* Emoji centered over the ring */}
                         <span
                             className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl sm:text-5xl select-none ${mode === "awake" ? "animate-spin-slow" : "animate-pulse-soft"
                                 }`}
@@ -107,19 +98,11 @@ export default function PersonalizedSection() {
                             {mood}, {displayName}
                         </h2>
                         <div className="flex items-center justify-center gap-2 text-base sm:text-lg text-[#94A3B8]">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-5 h-5"
-                            >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span>
-                                <strong className="text-[#F1F5F9] font-semibold">{timeToNext}</strong>{" "}
-                                {nextLabel}
+                                <strong className="text-[#F1F5F9] font-semibold">{timeToNext}</strong> {nextLabel}
                             </span>
                         </div>
                     </div>

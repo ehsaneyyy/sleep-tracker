@@ -11,13 +11,13 @@ export function ThemeProvider({ children }) {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        api.get("/auth/me/sleep-profile").then((res) => {
-            setProfile(res.data);
-        });
+        api.get("/auth/me/sleep-profile")
+            .then((res) => setProfile(res.data))
+            .catch(() => setProfile({ bed_time: "23:00", wake_time: "07:00", is_default: true }));
     }, []);
 
     useEffect(() => {
-        if (!profile) return;
+        if (!profile || !profile.bed_time) return;
         const checkMode = () => {
             const now = new Date();
             const [bedH, bedM] = profile.bed_time.split(":").map(Number);
@@ -53,7 +53,7 @@ export function ThemeProvider({ children }) {
     }, [mode]);
 
     return (
-        <ThemeContext.Provider value={{ mode, profile }}>
+        <ThemeContext.Provider value={{ mode, profile, setProfile }}>
             {children}
         </ThemeContext.Provider>
     );

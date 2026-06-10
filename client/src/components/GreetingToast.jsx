@@ -9,7 +9,7 @@ export default function GreetingToast() {
     const prevMode = useRef(mode);
 
     useEffect(() => {
-        if (!profile) return;
+        if (!profile || !profile.bed_time) return;
 
         const now = new Date();
         const [bedH, bedM] = profile.bed_time.split(":").map(Number);

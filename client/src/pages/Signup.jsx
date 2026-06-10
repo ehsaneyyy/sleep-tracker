@@ -6,6 +6,7 @@ export default function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const { signup } = useAuth();
     const navigate = useNavigate();
 
@@ -20,30 +21,58 @@ export default function Signup() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#0B0E14]">
-            <form onSubmit={handleSubmit} className="bg-[#151B23] p-8 rounded-xl shadow-lg w-full max-w-sm space-y-5 border border-[#FFFFFF0D]">
-                <h1 className="text-3xl font-bold text-[#F1F5F9]">Create Account</h1>
-                {error && <p className="text-[#F4A5A5] text-sm">{error}</p>}
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-3 rounded bg-[#0B0E14] border border-[#FFFFFF0D] text-[#F1F5F9] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B8CDE]"
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="Password (min 6 characters)"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-3 rounded bg-[#0B0E14] border border-[#FFFFFF0D] text-[#F1F5F9] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B8CDE]"
-                    required
-                />
-                <button type="submit" className="w-full py-3 bg-[#7B8CDE] hover:bg-[#A78BFA] text-[#0B0E14] rounded-full font-semibold transition-all duration-300 hover:scale-105">
-                    Sign Up
-                </button>
-                <p className="text-sm text-[#94A3B8] text-center">
+        <div className="min-h-screen flex items-center justify-center bg-[#0B0E14] p-4">
+            <form
+                onSubmit={handleSubmit}
+                className="w-full max-w-md bg-[#151B23]/90 backdrop-blur-2xl border border-[#FFFFFF10] rounded-3xl p-8 shadow-2xl shadow-black/30 animate-fade-in"
+            >
+                <h1 className="text-3xl font-light tracking-tight text-[#F1F5F9] mb-6 text-center">Create your account</h1>
+                {error && <p className="text-[#F4A5A5] text-sm mb-4 text-center">{error}</p>}
+
+                <div className="space-y-4">
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full p-3.5 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B8CDE] transition-colors"
+                        required
+                    />
+                    <div className="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Password (min 6 characters)"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full p-3.5 bg-[#0B0E14] rounded-xl border border-[#FFFFFF0D] text-[#F1F5F9] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B8CDE] transition-colors pr-12"
+                            required
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#F1F5F9] transition-colors"
+                        >
+                            {showPassword ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                </svg>
+                            ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            )}
+                        </button>
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full py-3.5 bg-[#7B8CDE] hover:bg-[#7B8CDE]/90 text-[#0B0E14] rounded-full font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,140,222,0.4)] hover:scale-105 active:scale-95"
+                    >
+                        Sign Up
+                    </button>
+                </div>
+
+                <p className="text-sm text-[#94A3B8] text-center mt-6">
                     Already have an account?{" "}
                     <Link to="/login" className="text-[#7B8CDE] hover:underline">Log in</Link>
                 </p>
