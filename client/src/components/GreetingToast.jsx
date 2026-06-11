@@ -9,6 +9,8 @@ export default function GreetingToast() {
     const prevMode = useRef(mode);
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
         if (!profile || !profile.bed_time) return;
 
         const now = new Date();
@@ -60,14 +62,7 @@ export default function GreetingToast() {
                     onClick={() => setVisible(false)}
                     className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-[#94A3B8] hover:bg-white/10 hover:text-[#F1F5F9] transition-colors"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-5 h-5"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>

@@ -13,12 +13,6 @@ import GreetingToast from "./components/GreetingToast";
 import InstallPrompt from "./components/InstallPrompt";
 import LoginPrompt from "./components/LoginPrompt";
 
-function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("token");
-  if (!token) return <Navigate to="/login" />;
-  return children;
-}
-
 function App() {
   const token = localStorage.getItem("token");
 
@@ -28,15 +22,15 @@ function App() {
         <ThemeProvider>
           <IdleTracker />
           <GreetingToast />
-          <InstallPrompt />
           <BrowserRouter>
             <LoginPrompt />
+            <InstallPrompt />
             {token && <Navbar />}
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/log" element={<ProtectedRoute><Log /></ProtectedRoute>} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/log" element={<Log />} />
               <Route path="/" element={<Home />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

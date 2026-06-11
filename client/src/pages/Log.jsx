@@ -16,6 +16,8 @@ export default function Log() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+
         try {
             const [sh, sm] = sleepTime.split(":").map(Number);
             const [wh, wm] = wakeTime.split(":").map(Number);
@@ -33,6 +35,7 @@ export default function Log() {
                 quality,
                 notes,
             });
+
             navigate("/dashboard");
         } catch (err) {
             setError("Failed to save. Check times and login status.");

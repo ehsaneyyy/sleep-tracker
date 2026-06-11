@@ -81,3 +81,42 @@ def get_sleep_profile(db: Session, user_id: int):
         "bed_time": f"{int(avg_bed // 60):02d}:{int(avg_bed % 60):02d}",
         "wake_time": f"{int(avg_wake // 60):02d}:{int(avg_wake % 60):02d}",
     }
+
+
+def update_entry(
+    db: Session, entry_id: int, user_id: int, data: schemas.SleepEntryCreate
+):
+    entry = (
+        db.query(models.SleepEntry)
+        .filter(
+            models.SleepEntry.id == entry_id,
+            models.SleepEntry.user_id == user_id,
+        )
+        .first()
+    )
+    if not entry:
+        return None
+    entry.date = data.date
+    entry.sleep_time = data.sleep_time
+    entry.wake_time = data.wake_time
+    entry.quality = data.quality
+    entry.notes = data.notes
+    db.commit()
+    db.refresh(entry)
+    return entry
+
+
+def delete_entry(db: Session, entry_id: int, user_id: int):
+    entry = (
+        db.query(models.SleepEntry)
+        .filter(
+            models.SleepEntry.id == entry_id,
+            models.SleepEntry.user_id == user_id,
+        )
+        .first()
+    )
+    if not entry:
+        return False
+    db.delete(entry)
+    db.commit()
+    return True

@@ -18,7 +18,7 @@ class UserOut(BaseModel):
     email: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Token(BaseModel):
@@ -42,10 +42,10 @@ class SleepEntryOut(BaseModel):
     quality: int
     notes: Optional[str]
     user_id: int
-    duration_hours: float  # computed on the fly
+    duration_hours: float
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class IdleEventCreate(BaseModel):
