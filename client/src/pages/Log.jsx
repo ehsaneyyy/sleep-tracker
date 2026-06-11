@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 
 const today = new Date().toISOString().slice(0, 10);
@@ -38,7 +38,30 @@ export default function Log() {
 
             navigate("/dashboard");
         } catch (err) {
-            setError("Failed to save. Check times and login status.");
+            if (err.response && err.response.status === 409) {
+                setError(
+                    <>
+                        <span className="text-[#F4A5A5]">
+                            You already logged sleep for{" "}
+                            {new Date(date).toLocaleDateString("en-US", {
+                                weekday: "short",
+                                day: "numeric",
+                                month: "short",
+                            })}
+                            .
+                        </span>{" "}
+                        <span className="text-[#F1F5F9]">Edit your logged sleep on your</span>{" "}
+                        <Link
+                            to="/dashboard"
+                            className="text-[#7B8CDE] underline hover:no-underline"
+                        >
+                        Dashboard
+                        </Link>
+                    </>
+                );
+            } else {
+                setError("Failed to save. Check times and login status.");
+            }
         }
     };
 
@@ -60,7 +83,7 @@ export default function Log() {
 
                 <h2 className="text-3xl font-light tracking-tight text-[#F1F5F9] mb-6">Log Sleep</h2>
 
-                {error && <p className="text-[#F4A5A5] text-sm mb-4">{error}</p>}
+                {error && <div className="text-sm mb-4">{error}</div>}
 
                 <div className="space-y-5">
                     <div>
